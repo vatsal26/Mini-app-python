@@ -53,6 +53,7 @@ while True:
                 a = input("Enter eight digit P.S. number of the new Employee : ")
                 pattern = re.compile(r'\s+')
                 finalps = re.sub(pattern, '', a)
+
                 try:
                     if len(finalps) != 8:
                         raise Error
@@ -94,8 +95,8 @@ while True:
                                                 print("The details of the new employee have been added to the file.")
                                         except ValueError:
                                             print("----------Grade should be in integer format only----------")
-                                except MailError:
-                                    print("----------Email.id is not in proper format----------")
+                                except PhoneError:
+                                    print("----------Phone number should be of 10 digits only----------")
                         except MailError:
                             print("----------Mail id is not in proper format----------")
                 except Error:
