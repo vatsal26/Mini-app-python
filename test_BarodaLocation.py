@@ -1,53 +1,65 @@
 import json
-import sys
 import pytest
-from io import StringIO
 
-def ReadJson():
-    try:
-        # Open JSON file
-        with open('Employee.json', 'r') as f:
-            # Load JSON data from file
-            employee_data = json.load(f)
-        # Print the employee data
-        for employee in employee_data['employee']:
-            print("PS.No.:", employee["PS.No."])
-            print("Employee Name:", employee["Employee Name"])
-            print("DOB:", employee["DOB"])
-            print("DOJ:", employee["DOJ"])
-            print("DOR:", employee["DOR"])
-            print("Email:", employee["Email"])
-            print("Contact:", employee["Contact"])
-            print("Designation:", employee["Designation"])
-            print("Business Unit:", employee["Business Unit"])
-            print("Base Location:", employee["Base Location"])
-            print("LTTS Grade:", employee["LTTS Grade"])
-            print("---")
-    except Exception as e:
-        print("Error:", e)
+def BarodaLocation():
+    with open('Employee.json', 'r') as f:
+        employee_data = json.load(f)
 
-def test_ReadJson():
-    # Test when the file is found
-    with open('Employee.json', 'w',encoding="utf-8") as f:
-        f.write(
-            '{"employee": [{"PS.No.": "1", "Employee Name": "John Doe", "DOB": "01-01-1990", "DOJ": "01-01-2010", "DOR": "", "Email": "johndoe@example.com", "Contact": "1234567890", "Designation": "Manager", "Business Unit": "Unit 1", "Base Location": "Location 1", "LTTS Grade": "L1"}]}')
+    baroda_employees = []
+    for employee in employee_data:
+        if employee['Base Location'] == 'Baroda':
+            baroda_employees.append({'Base Location': employee['Base Location'], 'Employee Name': employee['Employee Name']})
 
-    expected_output = "PS.No.: 1\nEmployee Name: John Doe\nDOB: 01-01-1990\nDOJ: 01-01-2010\nDOR: \nEmail: johndoe@example.com\nContact: 1234567890\nDesignation: Manager\nBusiness Unit: Unit 1\nBase Location: Location 1\nLTTS Grade: L1\n---\n"
+    return baroda_employees
 
-    captured_output = StringIO()
-    sys.stdout = captured_output
+def test_BarodaLocation():
+    employee_data = [
+        {
+            "PS.No.": "123456",
+            "Employee Name": "Vatsal Shah",
+            "DOB": "2000-07-26",
+            "DOJ": "2022-12-26",
+            "DOR": "NA",
+            "Email": "vatsal@gmail.com",
+            "Contact": "9999999999",
+            "Designation": "Associate Engineer",
+            "Business Unit": "DMS",
+            "Base Location": "Baroda",
+            "LTTS Grade": "2"
+        },
+        {
+            "PS.No.": "234567",
+            "Employee Name": "Shubham Patil",
+            "DOB": "2000-07-25",
+            "DOJ": "2022-12-26",
+            "DOR": "NA",
+            "Email": "Shubham@gmail.com",
+            "Contact": "7777777777",
+            "Designation": "Associate Engineer",
+            "Business Unit": "DMS",
+            "Base Location": "Baroda",
+            "LTTS Grade": "2"
+        },
+        {
+            "PS.No.": "3456789",
+            "Employee Name": "ShivaPradeep",
+            "DOB": "2001-01-01",
+            "DOJ": "2023-01-26",
+            "DOR": "NA",
+            "Email": "ShivaP@gmail.com",
+            "Contact": "5555555555",
+            "Designation": "Associate Engineer",
+            "Business Unit": "DMS",
+            "Base Location": "Chennai",
+            "LTTS Grade": "2"
+        }
+    ]
 
-    try:
-        ReadJson()
-    except Exception as e:
-        pytest.fail(f"Unexpected exception raised: {e}")
+    with open("Employee.json", "w") as f:
+        f.write(json.dumps(employee_data))
 
-    sys.stdout = sys.__stdout__
+    expected_output = [{'Base Location': 'Baroda', 'Employee Name': 'Vatsal Shah',}, {'Base Location': 'Baroda', 'Employee Name': 'Shubham Patil'}]
+    assert BarodaLocation() == expected_output
 
-    assert captured_output.getvalue() == expected_output
-
-    # Test when the file is not found
-    try:
-        ReadJson()
-    except Exception as e:
-        assert str(e) == "Error: [Errno 2] No such file or directory: 'Employee.json'"
+if __name__ == "__BarodaLocation__":
+    pytest.BarodaLocation()
